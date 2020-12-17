@@ -5,9 +5,11 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-app.listen(3009)
-console.log("running on port 3009")
 
+const port = process.env.PORT || 3009
+app.listen(port, () => {
+    console.log(`Express server listening on port ${port}`)
+})
 
 const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
