@@ -5,57 +5,52 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+const config = require('config');
+const configInfo = config.get('configData');
+
+
 
 const port = process.env.PORT || 3009
 app.listen(port, () => {
     console.log(`Express server listening on port ${port}`)
+
 })
 
 const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+sgMail.setApiKey(configInfo.emailApiKey)
 
 
 
-    const msg = {
-        to: "ritk.2503@gmail.com",
+const msg = {
+        to: "",
         from: "ritesh_k@apollohospitals.com",
         subject: "test",
-        text: ' ',
-        // html: '<strong>`hi there`</strong>',
-        html: "boom",
+        text: '',
+        html: "",
         attachments: [],
     };
 
 
 app.get('/sendEmail', async function f1(req, res) {
-    let messageInQuery = req.query.text;
+    let messageToSend = req.query.text;
+    let toEmail = req.query.toEmail;
     const msg = {
-        to: "ritk.2503@gmail.com",
+        to: toEmail,
         from: "ritesh_k@apollohospitals.com",
-        subject: "test",
+        subject: "Test Mail",
         text: ' ',
-        // html: '<strong>`hi there`</strong>',
-        html: messageInQuery,
+        html: messageToSend,
         attachments: [],
     };
     console.log("message textt",msg.html)
-    console.log("message wont go coz sendgridkey not added yet")
-    return res.send("okkk")
-    // let sendgridResponse= await sgMail.send(msg)
-    // console.log("sendgridResponse",sendgridResponse)
-    // return res.send({code:"ok",response:sendgridResponse})
+    console.log("message recipient",msg.to)
+    // console.log("message wont go coz sendgridkey not added yet")
+    // return res.send("okkk")
+    let sendgridResponse= await sgMail.send(msg)
+    console.log("sendgridResponse",sendgridResponse)
+    return res.send({code:"ok",response:sendgridResponse})
     }
 )
 
-
-// app.post('/123', function (req, res) {
-//     console.log(req.body);
-//     var password=req.body.pass
-//     console.log("this is your password :",password)
-//     return res.send({
-//         code:"ok",
-//         password:password
-//     })
-// })
 
 
