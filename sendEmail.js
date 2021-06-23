@@ -36,7 +36,7 @@ app.get('/sendEmail', async function f1(req, res) {
     let toEmail = req.query.toEmail;
     const msg = {
         to: toEmail,
-        from: "ritesh_k@apollohospitals.com",
+        from: "riteshcarati@healthymotherhood.co.in",
         subject: "Test Mail",
         text: ' ',
         html: messageToSend,
@@ -46,7 +46,15 @@ app.get('/sendEmail', async function f1(req, res) {
     console.log("message recipient",msg.to)
     // console.log("message wont go coz sendgridkey not added yet")
     // return res.send("okkk")
-    let sendgridResponse= await sgMail.send(msg)
+    let sendgridResponse;
+    try {
+         sendgridResponse= await sgMail.send(msg)
+
+    }catch (e) {
+        console.log("error hai",e,"done boy")
+    }
+
+    console.log("hello111")
     console.log("sendgridResponse",sendgridResponse)
     return res.send({code:"ok",response:sendgridResponse})
     }
