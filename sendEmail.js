@@ -54,7 +54,7 @@ app.get('/sendEmail', async function f1(req, res) {
         console.log("error hai",e,"done boy")
     }
 
-    console.log("hello111")
+    console.log("hello there")
     console.log("sendgridResponse",sendgridResponse)
     return res.send({code:"ok",response:sendgridResponse})
     }
